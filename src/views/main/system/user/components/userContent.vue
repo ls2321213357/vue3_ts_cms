@@ -43,7 +43,7 @@
         v-model:page-size="searchObj.size"
         :current-page.sync="searchObj.offset + 1"
         :page-sizes="[10, 15, 20, 25]"
-        layout="total, sizes, prev, pager, next,->"
+        layout="total, sizes, prev, pager, next"
         :total="userInfoSum"
       >
       </el-pagination>
@@ -101,7 +101,7 @@ const createUserItem = () => {}
 </script>
 <style scoped lang="less">
 .container {
-  height: calc(100vh - 320px);
+  // height: calc(100vh - 320px);
   background-color: #fff;
   padding: 20px;
   margin-top: 20px;

@@ -15,26 +15,30 @@ import type { RequestConfig } from './type'
  */
 
 class Request {
+  isLoading = false
   instance: AxiosInstance
   // request实例 => axios的实例
   constructor(config: RequestConfig) {
     this.instance = axios.create(config)
-
     // 每个instance实例都添加拦截器
     this.instance.interceptors.request.use(
       (config) => {
+        this.isLoading = true
         // loading/token
         return config
       },
       (err) => {
+        this.isLoading = true
         return err
       }
     )
     this.instance.interceptors.response.use(
       (res) => {
+        this.isLoading = false
         return res.data
       },
       (err) => {
+        this.isLoading = false
         return err
       }
     )

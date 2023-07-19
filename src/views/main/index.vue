@@ -9,7 +9,7 @@
           <main-header @changeShow="handleFoldChange" />
         </el-header>
         <el-main>
-          <div class="main-router">
+          <div class="main-router" v-loading="loading">
             <router-view></router-view>
           </div>
         </el-main>
@@ -19,12 +19,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, toRef } from 'vue'
 import MainMenu from '@/components/MainMenu/index.vue'
 import MainHeader from '@/components/MainHeader/index.vue'
+import request from '@/service'
 // 处理main-header中折叠的变化
 const isFold = ref(true)
-function handleFoldChange(flag: boolean) {
+const loading = toRef(request.isLoading)
+const handleFoldChange = (flag: boolean) => {
   isFold.value = flag
 }
 </script>

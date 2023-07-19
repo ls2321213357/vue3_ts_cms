@@ -15,7 +15,5 @@ createApp(App)
   .use(router)
   .use(pinia)
   .use(registerIcons)
-  .use(ElementPlus, {
-    locale: zhCn
-  })
+  .use(ElementPlus, { locale: zhCn })
   .mount('#app')

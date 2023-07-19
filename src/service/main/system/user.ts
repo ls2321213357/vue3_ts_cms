@@ -14,9 +14,21 @@ export function searchUserList(data: searchUserListTypes) {
  * @returns
  */
 export function createUserItem(data: crateUserTypes) {
-  return request.post({ url: '/user', data })
+  return request.post({ url: '/users', data })
 }
-
-export function deleteUserItem(id:number){
-  return request
+/**
+ * 删除用户
+ * @param id 用户id
+ * @returns
+ */
+export function deleteUserItem(id: number) {
+  return request.patch({ url: `/users/${id}` })
+}
+/**
+ * 修改用户
+ * @param data 用户信息
+ * @returns
+ */
+export function editUserInfo(data: any) {
+  return request.patch({ url: `/users/${data.id}`, data })
 }
