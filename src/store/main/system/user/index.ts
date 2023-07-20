@@ -1,6 +1,11 @@
 import { defineStore } from 'pinia'
-import { searchUserList, createUserItem } from '@/service/main/system/user'
-import type { searchUserListTypes, crateUserTypes } from '@/types/login'
+import {
+  searchUserList,
+  createUserItem,
+  editUserInfo,
+  deleteUserItem
+} from '@/service/main/system/user'
+import type { userSearchTypes, crateUserTypes } from '@/types/user'
 import { messageTip } from '@/utils/format'
 interface userInfoTypes {
   userInfoList: any[]
@@ -13,13 +18,17 @@ const userInfoStore = defineStore('user', {
   }),
   actions: {
     //查询用户列表
-    async getUserInfoList(searchObj: searchUserListTypes) {
+    async getUserInfoList(searchObj: userSearchTypes) {
       const res = await searchUserList(searchObj)
       if (!res.data) {
         messageTip('服务器错误', 'error')
         return Promise.reject(new Error('系统出错'))
       } else {
-        messageTip('获取成功', 'success')
+        if (res.data.list.length === 0) {
+          messageTip('暂无数据', 'warning')
+        } else {
+          messageTip('获取用户列表成功', 'success')
+        }
       }
       this.userInfoSum = res.data.totalCount
       this.userInfoList = res.data.list
@@ -27,9 +36,17 @@ const userInfoStore = defineStore('user', {
     //创建用户
     async createUserItem(createUserObj: crateUserTypes) {
       const res = await createUserItem(createUserObj)
-      if (!res.data) {
-        return Promise.reject(new Error('系统出错'))
-      }
+      messageTip(res.data, 'success')
+    },
+    //删除用户
+    async deleteUserItem(id: number) {
+      const res = await deleteUserItem(id)
+      messageTip(res.data, 'success')
+    },
+    //修改用户信息
+    async editUserItem(editUserObj: any) {
+      const res = await editUserInfo(editUserObj)
+      console.log(res)
     }
   }
 })

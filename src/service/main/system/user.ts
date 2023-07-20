@@ -1,11 +1,11 @@
 import request from '@/service'
-import type { searchUserListTypes, crateUserTypes } from '@/types/login'
+import type { userSearchTypes, crateUserTypes } from '@/types/user'
 /**
  *
  * @param data 查询条件
  * @returns 用户列表
  */
-export function searchUserList(data: searchUserListTypes) {
+export function searchUserList(data: userSearchTypes) {
   return request.post({ url: '/users/list', data })
 }
 /**
@@ -22,7 +22,7 @@ export function createUserItem(data: crateUserTypes) {
  * @returns
  */
 export function deleteUserItem(id: number) {
-  return request.patch({ url: `/users/${id}` })
+  return request.delete({ url: `/users/${id}` })
 }
 /**
  * 修改用户
