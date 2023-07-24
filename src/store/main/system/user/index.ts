@@ -36,17 +36,32 @@ const userInfoStore = defineStore('user', {
     //创建用户
     async createUserItem(createUserObj: crateUserTypes) {
       const res = await createUserItem(createUserObj)
-      messageTip(res.data, 'success')
+      if (!res.data) {
+        messageTip('创建失败', 'error')
+        return Promise.reject(new Error('系统出错'))
+      } else {
+        messageTip(res.data, 'success')
+      }
     },
     //删除用户
     async deleteUserItem(id: number) {
       const res = await deleteUserItem(id)
-      messageTip(res.data, 'success')
+      if (!res.data) {
+        messageTip('删除失败', 'error')
+        return Promise.reject(new Error('系统出错'))
+      } else {
+        messageTip(res.data, 'success')
+      }
     },
     //修改用户信息
     async editUserItem(editUserObj: any) {
       const res = await editUserInfo(editUserObj)
-      console.log(res)
+      if (!res.data) {
+        messageTip('修改失败', 'error')
+        return Promise.reject(new Error('系统出错'))
+      } else {
+        messageTip(res.data, 'success')
+      }
     }
   }
 })

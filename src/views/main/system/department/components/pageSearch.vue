@@ -8,30 +8,17 @@
       ref="formLine"
     >
       <el-row :gutter="200">
-        <el-col :span="8">
-          <el-form-item label="用户名" prop="name">
+        <el-col :span="6">
+          <el-form-item label="部门名称" prop="name">
             <el-input v-model="searchForm.name" placeholder="请输入用户名" />
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="真实姓名" prop="realname">
-            <el-input v-model="searchForm.realname" placeholder="请输入真实名" />
+        <el-col :span="6">
+          <el-form-item label="部门领导" prop="leader">
+            <el-input v-model="searchForm.leader" placeholder="请输入真实名" />
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="手机号" prop="cellphone">
-            <el-input v-model="searchForm.cellphone" placeholder="请输入手机号" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="状态" prop="enable">
-            <el-select v-model="searchForm.enable" placeholder="请选择" style="width: 100%">
-              <el-option label="启用" :value="1" />
-              <el-option label="禁用" :value="0" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="注册时间" prop="createAt">
             <el-date-picker
               v-model="searchForm.createAt"
@@ -42,7 +29,7 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item>
             <div class="btn">
               <el-button @click="resetForm(formLine)"
@@ -66,9 +53,7 @@ import type { ElForm } from 'element-plus'
 const formLine = ref<InstanceType<typeof ElForm>>()
 let searchForm = reactive({
   name: '', //用户名
-  realname: '', //真实姓名
-  cellphone: '',
-  enable: 1,
+  leader: '', //真实姓名
   createAt: ''
 })
 const emit = defineEmits(['searchHandler', 'resetHandler'])

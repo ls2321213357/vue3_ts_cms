@@ -62,7 +62,7 @@
           <el-form-item label="真实姓名" prop="realname">
             <el-input v-model="createUserObj.realname"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
+          <el-form-item label="密码" prop="password" v-if="isNewUser">
             <el-input v-model="createUserObj.password"></el-input>
           </el-form-item>
           <el-form-item label="电话号码" prop="cellphone">
@@ -98,12 +98,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, toRef } from 'vue'
 import { storeToRefs } from 'pinia'
 import userInfoStore from '@/store/main/system/user'
 import departmentStore from '@/store/main/system/department'
 import roleStore from '@/store/main/system/role'
-import { formatUTC } from '@/utils/format'
+import { formatUTC, getObjectCommon } from '@/utils/format'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import type { userSearchTypes, userQueryTypes } from '@/types/user'
 import type { ElForm } from 'element-plus'
@@ -146,6 +146,7 @@ const deleteUserItem = (id: number) => {
 const departmentInfo = departmentStore()
 const roleInfo = roleStore()
 let createUserObj = reactive({
+  id: 0,
   name: '',
   realname: '',
   password: '',
@@ -157,8 +158,9 @@ let createUserObj = reactive({
 const editUserItem = (item: any) => {
   isNewUser.value = false
   isShowDialog.value = true
-  createUserObj = item
   getDepartAndRole()
+  //因为丢失了响应式所有用ref包裹
+  createUserObj = toRef(getObjectCommon(item, createUserObj)).value
 }
 const cancelDialog = (createForm: any) => {
   isShowDialog.value = false
@@ -167,7 +169,7 @@ const cancelDialog = (createForm: any) => {
 }
 const getDepartAndRole = () => {
   //获取部门列表
-  departmentInfo.getDepartmentInfoList()
+  departmentInfo.getDepartmentInfoList(searchObj)
   //获取角色列表
   roleInfo.getRoleList()
 }
