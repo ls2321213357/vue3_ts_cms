@@ -24,3 +24,5 @@ export interface createDepartmentTypes {
   parentId: number
   leader: string
 }
+
+

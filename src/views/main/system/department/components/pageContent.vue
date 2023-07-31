@@ -55,7 +55,7 @@
           <el-form-item label="部门领导" prop="leader">
             <el-input v-model="departmentObj.leader"></el-input>
           </el-form-item>
-          <el-form-item label="部门编号" prop="parentId">
+          <el-form-item label="上级部门" prop="parentId">
             <el-input v-model="departmentObj.parentId"></el-input>
           </el-form-item>
         </el-form>
@@ -115,7 +115,8 @@ const deleteItemHandler = (id: number) => {
 let departmentObj: createDepartmentTypes = reactive({
   name: '',
   parentId: 1,
-  leader: ''
+  leader: '',
+  id: 0
 })
 //编辑操作
 const editItemHandler = (item: any) => {
