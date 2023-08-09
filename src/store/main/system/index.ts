@@ -33,7 +33,7 @@ const systemStore = defineStore('system', {
         messageTip(res.data, 'success')
       }
     },
-    //删除部门
+    //删除
     async deleteInfoItem(pageName: string, id: number) {
       const res = await deleteItem(pageName, id)
       if (!res.data) {
@@ -43,9 +43,9 @@ const systemStore = defineStore('system', {
         messageTip(res.data, 'success')
       }
     },
-    //修改部门
-    async editInfoItem(pageName: string, editObj: any) {
-      const res = await editItem(pageName, editObj)
+    //修改
+    async editInfoItem(pageName: string, id: number, editObj: any) {
+      const res = await editItem(pageName, id, editObj)
       if (!res.data) {
         messageTip('修改失败', 'error')
         return Promise.reject(new Error('系统出错'))

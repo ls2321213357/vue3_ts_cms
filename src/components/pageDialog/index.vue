@@ -1,22 +1,25 @@
 <template>
   <div>
     <el-dialog
-      :title="prop.dialogConfig.isNewUser ? '新建用户' : '编辑用户'"
+      :title="(prop.dialogConfig.isNewUser ? `新建` : '修改') + prop.dialogConfig.name"
       v-model="prop.dialogConfig.isShowDialog"
       width="20%"
       center
     >
       <div>
-        <el-form ref="createForm" :model="departmentObj" label-width="80px">
-          <el-form-item label="部门名称" prop="name">
-            <el-input v-model="departmentObj.name"></el-input>
-          </el-form-item>
-          <el-form-item label="部门领导" prop="leader">
-            <el-input v-model="departmentObj.leader"></el-input>
-          </el-form-item>
-          <el-form-item label="上级部门" prop="parentId">
-            <el-input v-model="departmentObj.parentId"></el-input>
-          </el-form-item>
+        <el-form ref="createForm" :model="dialogObj" label-width="80px">
+          <template v-for="item in prop.dialogConfig.formList" :key="item.label">
+            <template v-if="item.type === 'input'">
+              <el-form-item :label="item.label" :prop="item.prop">
+                <el-input v-model="dialogObj[item.prop]"></el-input>
+              </el-form-item>
+            </template>
+            <template v-if="item.type === 'tree'">
+              <div>
+                
+              </div>
+            </template>
+          </template>
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -33,9 +36,11 @@ import { getObjectCommon } from '@/utils/format'
 import systemStore from '@/store/main/system'
 interface Iprop {
   dialogConfig: {
+    name: string
     isNewUser: boolean
     isShowDialog: boolean
     pageName: string
+    formList: any[]
   }
 }
 const createForm = ref<InstanceType<typeof ElForm>>()
@@ -44,20 +49,29 @@ const systemInfo = systemStore()
 const prop = defineProps<Iprop>()
 const emit = defineEmits(['createSuccess', 'editSuccess'])
 //部门信息
-let departmentObj = reactive({
-  name: '',
-  parentId: 1,
-  leader: '',
-  id: 0
-})
+let dialogObj: any = {}
+for (const item of prop.dialogConfig.formList) {
+  if (item.prop === 'parentId') {
+    dialogObj[item.prop] = 0
+  }
+  dialogObj[item.prop] = ''
+}
+//表单id
+let id = ref<number>(0)
 //编辑操作
 const editItemHandler = (item: any) => {
   prop.dialogConfig.isNewUser = false
   prop.dialogConfig.isShowDialog = true
-  departmentObj = toRef(getObjectCommon(item, departmentObj)).value
+  dialogObj = toRef(getObjectCommon(item, dialogObj)).value
+  id.value = item.id
 }
 //新建操作
 const createUserItem = () => {
+  dialogObj = reactive({
+    name: '',
+    parentId: '',
+    leader: ''
+  })
   prop.dialogConfig.isNewUser = true
   prop.dialogConfig.isShowDialog = true
 }
@@ -70,12 +84,12 @@ const cancelDialog = (createForm: any) => {
 //创建和编辑
 const fetchSearchInfoHandler = async (createForm: any) => {
   prop.dialogConfig.isNewUser
-    ? systemInfo.createInfoItem(prop.dialogConfig.pageName, departmentObj).then(() => {
+    ? systemInfo.createInfoItem(prop.dialogConfig.pageName, dialogObj).then(() => {
         createForm.resetFields()
         prop.dialogConfig.isShowDialog = false
         emit('createSuccess')
       })
-    : systemInfo.editInfoItem(prop.dialogConfig.pageName, departmentObj).then(() => {
+    : systemInfo.editInfoItem(prop.dialogConfig.pageName, id.value, dialogObj).then(() => {
         createForm.resetFields()
         prop.dialogConfig.isShowDialog = false
         emit('editSuccess')

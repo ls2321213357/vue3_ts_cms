@@ -43,6 +43,7 @@ router.beforeEach((to, from) => {
   if (to.matched.some((record) => record.path === '/main') && !token) {
     return '/login'
   }
+  //默认匹配到第一个页面
   if (to.path === '/main') {
     return `/main/${routerList[1].path}`
   }
