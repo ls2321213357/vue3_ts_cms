@@ -8,17 +8,17 @@
     >
       <div>
         <el-form ref="createForm" :model="dialogObj" label-width="80px">
-          <template v-for="item in prop.dialogConfig.formList" :key="item.label">
+          <template v-for="item in dialogConfig.formList" :key="item.label">
             <template v-if="item.type === 'input'">
               <el-form-item :label="item.label" :prop="item.prop">
                 <el-input v-model="dialogObj[item.prop]"></el-input>
               </el-form-item>
             </template>
-            <template v-if="item.type === 'tree'">
-              <div>
-                
-              </div>
-            </template>
+          </template>
+          <template v-if="dialogConfig.slotName === 'tree'">
+            <div class="tree">
+              <slot name="menuList"></slot>
+            </div>
           </template>
         </el-form>
       </div>
@@ -40,8 +40,10 @@ interface Iprop {
     isNewUser: boolean
     isShowDialog: boolean
     pageName: string
+    slotName?: string
     formList: any[]
   }
+  otherInfo?: any
 }
 const createForm = ref<InstanceType<typeof ElForm>>()
 //判断是新建用户还是编辑用户
@@ -49,7 +51,7 @@ const systemInfo = systemStore()
 const prop = defineProps<Iprop>()
 const emit = defineEmits(['createSuccess', 'editSuccess'])
 //部门信息
-let dialogObj: any = {}
+let dialogObj: any = reactive({})
 for (const item of prop.dialogConfig.formList) {
   if (item.prop === 'parentId') {
     dialogObj[item.prop] = 0
@@ -67,11 +69,6 @@ const editItemHandler = (item: any) => {
 }
 //新建操作
 const createUserItem = () => {
-  dialogObj = reactive({
-    name: '',
-    parentId: '',
-    leader: ''
-  })
   prop.dialogConfig.isNewUser = true
   prop.dialogConfig.isShowDialog = true
 }
@@ -83,13 +80,16 @@ const cancelDialog = (createForm: any) => {
 }
 //创建和编辑
 const fetchSearchInfoHandler = async (createForm: any) => {
+  //如果有角色权限的就进行拼接,没有的话就和以前一样
+  let dataObj = prop.otherInfo ? { ...prop.otherInfo, ...dialogObj } : { ...dialogObj }
+  //新建操作与编辑操作
   prop.dialogConfig.isNewUser
-    ? systemInfo.createInfoItem(prop.dialogConfig.pageName, dialogObj).then(() => {
+    ? systemInfo.createInfoItem(prop.dialogConfig.pageName, dataObj).then(() => {
         createForm.resetFields()
         prop.dialogConfig.isShowDialog = false
         emit('createSuccess')
       })
-    : systemInfo.editInfoItem(prop.dialogConfig.pageName, id.value, dialogObj).then(() => {
+    : systemInfo.editInfoItem(prop.dialogConfig.pageName, id.value, dataObj).then(() => {
         createForm.resetFields()
         prop.dialogConfig.isShowDialog = false
         emit('editSuccess')
@@ -100,4 +100,11 @@ defineExpose({
   createUserItem
 })
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.tree {
+  width: 60%;
+  position: relative;
+  left: 72px;
+  top: 0px;
+}
+</style>

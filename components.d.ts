@@ -43,6 +43,8 @@ declare module '@vue/runtime-core' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElText: typeof import('element-plus/es')['ElText']
+    ElTree: typeof import('element-plus/es')['ElTree']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     HeaderCrumb: typeof import('./src/components/MainHeader/components/HeaderCrumb.vue')['default']
     HeaderInfo: typeof import('./src/components/MainHeader/components/HeaderInfo.vue')['default']
     MainHeader: typeof import('./src/components/MainHeader/index.vue')['default']

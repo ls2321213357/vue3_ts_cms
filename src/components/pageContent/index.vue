@@ -7,7 +7,13 @@
       }}</el-button>
     </div>
     <div class="ctx-table">
-      <el-table ref="multipleTableRef" :data="dataList" style="width: 100%" border>
+      <el-table
+        ref="multipleTableRef"
+        :data="dataList"
+        style="width: 100%"
+        border
+        v-bind="contentConfig.childrenTree"
+      >
         <template v-for="item in contentConfig.dataList" :key="item.label">
           <template v-if="item.type === 'timer'">
             <el-table-column :label="item.label" align="center">
@@ -54,7 +60,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         v-model:page-size="searchObj.size"
-        :current-page.sync="searchObj.offset + 1"
+        v-model:current-page="searchObj.offset"
         :page-sizes="[10, 15, 20, 25]"
         layout="->,total, sizes, prev, pager, next"
         :total="dataSum"
@@ -69,13 +75,19 @@ import { storeToRefs } from 'pinia'
 import systemStore from '@/store/main/system'
 import { formatUTC } from '@/utils/format'
 import { Delete, Edit } from '@element-plus/icons-vue'
-
+interface childTree {
+  rowKey: string
+  treeProps: {
+    children: string
+  }
+}
 interface Iporps {
   contentConfig: {
     title?: string
     btnTitle?: string
     pageName: string
     dataList: any[]
+    childrenTree?: childTree
   }
 }
 const prop = defineProps<Iporps>()
@@ -99,7 +111,7 @@ const handleSizeChange = (val: number) => {
 }
 //更改当前页
 const handleCurrentChange = (val: number) => {
-  searchObj.offset = val - 1
+  searchObj.offset = val
   fetchSearchHandler()
 }
 //删除操作

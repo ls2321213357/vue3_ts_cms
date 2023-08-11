@@ -32,3 +32,7 @@ export function deleteItem(pageName: string, id: number) {
 export function editItem(pageName: string, id: number, data: any) {
   return request.patch({ url: `/${pageName}/${id}`, data })
 }
+
+export function getEntireMenus() {
+  return request.post({ url: '/menu/list' })
+}

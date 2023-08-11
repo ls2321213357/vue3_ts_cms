@@ -1,10 +1,17 @@
-import { searchList, deleteItem, editItem, createItem } from '@/service/main/system/main'
+import {
+  searchList,
+  deleteItem,
+  editItem,
+  createItem,
+  getEntireMenus
+} from '@/service/main/system/main'
 import { defineStore } from 'pinia'
 import { messageTip } from '@/utils/format'
 const systemStore = defineStore('system', {
   state: () => ({
     dataList: [],
-    dataSum: 0
+    dataSum: 0,
+    menuList: []
   }),
   actions: {
     //获取列表
@@ -52,6 +59,19 @@ const systemStore = defineStore('system', {
       } else {
         messageTip(res.data, 'success')
       }
+    },
+    //获取菜单列表
+    async getEntireMenusList() {
+      const res = await getEntireMenus()
+      if (!res.data) {
+        messageTip('服务器错误', 'error')
+        return Promise.reject(new Error('系统出错'))
+      } else {
+        if (res.data.list.length === 0) {
+          messageTip('暂无数据', 'warning')
+        }
+      }
+      this.menuList = res.data.list
     }
   }
 })

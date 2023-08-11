@@ -3,6 +3,7 @@ export default {
   isNewUser: true,
   isShowDialog: false,
   pageName: 'role',
+  slotName: 'tree',
   formList: [
     {
       type: 'input',
@@ -13,11 +14,6 @@ export default {
       type: 'input',
       label: '角色描述',
       prop: 'intro'
-    },
-    {
-      type: 'tree',
-      label: '角色权限',
-      prop: 'parentId'
     }
   ]
 }
