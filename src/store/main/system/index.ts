@@ -16,7 +16,8 @@ const systemStore = defineStore('system', {
   actions: {
     //获取列表
     async getInfoList(pageName: string, data: any) {
-      const res = await searchList(pageName, data)
+      const dataInfo = { offset: data.offset - 1, size: data.size }
+      const res = await searchList(pageName, dataInfo)
       if (!res.data) {
         messageTip('服务器错误', 'error')
         return Promise.reject(new Error('系统出错'))

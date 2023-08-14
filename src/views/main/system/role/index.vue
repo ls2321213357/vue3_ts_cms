@@ -44,6 +44,7 @@ import contentConfig from './config/content.config'
 import dialogConfig from './config/dialog.config'
 import { useContentHandler } from '@/hooks/useContentHandler'
 import systemStore from '@/store/main/system/index'
+import { getMenuListToIDArray } from '@/utils/format'
 import { storeToRefs } from 'pinia'
 import type { ElTree } from 'element-plus'
 const useSystem = systemStore()
@@ -51,11 +52,10 @@ const dialogConfigProp = reactive(dialogConfig)
 //el-tree的操作,编辑时进行赋值
 const treeRef = ref<InstanceType<typeof ElTree>>()
 const editCallBack = (itemData: any) => {
-  console.log(...[...itemData.menuList])
-
-  // nextTick(() => {
-  //   treeRef.value?.setCurrentNode({ ...itemData.menuList }, true)
-  // })
+  //获得的id数组
+  nextTick(() => {
+    treeRef.value?.setCheckedKeys(getMenuListToIDArray(itemData.menuList))
+  })
 }
 //引入hooks
 const {

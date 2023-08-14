@@ -58,7 +58,6 @@
     <div class="ctx-page">
       <el-pagination
         @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         v-model:page-size="searchObj.size"
         v-model:current-page="searchObj.offset"
         :page-sizes="[10, 15, 20, 25]"
@@ -70,7 +69,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import systemStore from '@/store/main/system'
 import { formatUTC } from '@/utils/format'
@@ -94,7 +93,7 @@ const prop = defineProps<Iporps>()
 const emit = defineEmits(['editClick', 'createClick'])
 const systemInfo = systemStore()
 const searchObj = reactive({
-  offset: 0,
+  offset: 1,
   size: 10
 })
 const fetchSearchHandler = (searchQueryObj = {}) => {
@@ -107,11 +106,6 @@ const { dataList, dataSum } = storeToRefs(systemInfo)
 //更改一页展示几条数据
 const handleSizeChange = (val: number) => {
   searchObj.size = val
-  fetchSearchHandler()
-}
-//更改当前页
-const handleCurrentChange = (val: number) => {
-  searchObj.offset = val
   fetchSearchHandler()
 }
 //删除操作
@@ -129,6 +123,12 @@ const createItemHandler = () => {
 }
 //向外暴露的方法
 defineExpose({ fetchSearchHandler })
+watch(
+  () => searchObj.offset,
+  () => {
+    fetchSearchHandler()
+  }
+)
 </script>
 <style scoped lang="less">
 .container {

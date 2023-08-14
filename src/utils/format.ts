@@ -30,3 +30,22 @@ export function getObjectCommon(obj1: any, obj2: any) {
   }
   return objRes
 }
+
+/**
+ * 菜单映射到ID列表
+ * @param menuList
+ */
+export function getMenuListToIDArray(menuList: any[]) {
+  let ids: number[] = []
+  function recurseGetId(menu: any[]) {
+    for (const item of menu) {
+      if (item.children) {
+        recurseGetId(item.children)
+      } else {
+        ids.push(item.id)
+      }
+    }
+  }
+  recurseGetId(menuList)
+  return ids
+}
