@@ -1,28 +1,67 @@
 <template>
-  <div class="user">
-    <userSearch @search-handler="userSearchHandler" @reset-handler="userResetHandler"></userSearch>
-    <userContent ref="userCtx"></userContent>
+  <div class="container">
+    <page-search
+      :search-config="searchConfig"
+      @search-handler="pageSearchHandler"
+      @reset-handler="pageResetHandler"
+    ></page-search>
+    <page-content
+      :content-config="contentConfig"
+      ref="pageCtx"
+      @edit-click="editClickHandler"
+      @create-click="createClickHandler"
+    >
+    </page-content>
+    <page-dialog
+      :dialog-config="dialogConfigProp"
+      :role-list="roleList"
+      :department-list="departmentList"
+      ref="pageDig"
+      @create-success="createSuccessHandler"
+      @edit-success="editSuccessHandler"
+    >
+    </page-dialog>
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
-import userSearch from '@/views/main/system/user/components/userSearch.vue'
-import userContent from '@/views/main/system/user/components/userContent.vue'
-import type { userQueryTypes } from '@/types/user'
-const userCtx = ref<InstanceType<typeof userContent>>()
-//查询操作
-const userSearchHandler = (searchObj: userQueryTypes) => {
-  userCtx.value?.fetchSearchHandler(searchObj)
-}
-//重置操作
-const userResetHandler = () => {
-  userCtx.value?.fetchSearchHandler()
-}
+import { reactive } from 'vue'
+import pageSearch from '@/components/pageSearch/index.vue'
+import pageContent from '@/components/pageContent/index.vue'
+import pageDialog from '@/components/pageDialog/index.vue'
+import searchConfig from './config/search.config'
+import contentConfig from './config/content.config'
+import dialogConfig from './config/dialog.config'
+import { useContentHandler } from '@/hooks/useContentHandler'
+import roleStore from '@/store/main/system/role'
+import departmentStore from '@/store/main/system/department'
+import { storeToRefs } from 'pinia'
+const dialogConfigProp = reactive(dialogConfig)
+//请求角色列表
+const role = roleStore()
+role.getRoleList()
+const { roleList } = storeToRefs(role)
+//获取部门列表
+const department = departmentStore()
+department.getDepartmentList()
+const { departmentList } = storeToRefs(department)
+//请求部门列表
+//引入hooks
+const {
+  pageCtx,
+  pageDig,
+  pageResetHandler,
+  pageSearchHandler,
+  editClickHandler,
+  editSuccessHandler,
+  createClickHandler,
+  createSuccessHandler
+} = useContentHandler()
 </script>
 <style scoped lang="less">
-.user {
+.container {
   height: 100%;
   border-radius: 8px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>

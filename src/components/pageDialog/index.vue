@@ -14,6 +14,19 @@
                 <el-input v-model="dialogObj[item.prop]"></el-input>
               </el-form-item>
             </template>
+            <template v-if="item.type === 'select'">
+              <el-form-item :label="item.label" :prop="item.prop">
+                <el-select v-model="dialogObj[item.prop]" placeholder="请选择">
+                  <el-option
+                    v-for="itemChild in prop[item.data]"
+                    :key="itemChild.id"
+                    :label="itemChild.name"
+                    :value="itemChild.id"
+                  />
+                </el-select>
+              </el-form-item>
+              <!-- <slot :name="item.slotName"></slot> -->
+            </template>
           </template>
           <template v-if="dialogConfig.slotName === 'tree'">
             <div class="tree">
@@ -43,6 +56,8 @@ interface Iprop {
     slotName?: string
     formList: any[]
   }
+  roleList?: any[]
+  departmentList?: any[]
   otherInfo?: any
 }
 const createForm = ref<InstanceType<typeof ElForm>>()

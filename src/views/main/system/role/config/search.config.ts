@@ -1,4 +1,5 @@
 export default {
+  pageName: 'role',
   formItems: [
     {
       type: 'input',

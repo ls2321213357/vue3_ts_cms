@@ -2,7 +2,7 @@
   <div class="container">
     <div class="ctx-header">
       <h2>{{ contentConfig.title ?? '内容列表' }}</h2>
-      <el-button type="primary" @click="createItemHandler">{{
+      <el-button v-if="isCreate" type="primary" @click="createItemHandler">{{
         contentConfig.btnTitle ?? '新建'
       }}</el-button>
     </div>
@@ -27,14 +27,29 @@
               </template>
             </el-table-column>
           </template>
+          <template v-else-if="item.type === 'status'">
+            <el-table-column align="center" v-bind="item">
+              <template #default="scope">
+                <el-button :type="scope.row.enable === 1 ? 'success' : 'danger'"
+                  >{{ scope.row.enable === 1 ? '启用' : '禁用' }}
+                </el-button>
+              </template>
+            </el-table-column>
+          </template>
           <template v-else-if="item.type === 'handler'">
             <el-table-column label="操作" width="180" class="btn" align="center">
               <template #default="scope">
-                <el-button link :icon="Edit" type="primary" @click="editItemHandler(scope.row)"
+                <el-button
+                  v-if="isUpdate"
+                  link
+                  :icon="Edit"
+                  type="primary"
+                  @click="editItemHandler(scope.row)"
                   >编辑</el-button
                 >
                 <el-button
                   link
+                  v-if="isDelete"
                   :icon="Delete"
                   type="danger"
                   @click="deleteItemHandler(scope.row.id)"
@@ -74,6 +89,7 @@ import { storeToRefs } from 'pinia'
 import systemStore from '@/store/main/system'
 import { formatUTC } from '@/utils/format'
 import { Delete, Edit } from '@element-plus/icons-vue'
+import { usePermissions } from '@/hooks/usePermissions'
 interface childTree {
   rowKey: string
   treeProps: {
@@ -91,6 +107,10 @@ interface Iporps {
 }
 const prop = defineProps<Iporps>()
 const emit = defineEmits(['editClick', 'createClick'])
+//获取是否有RUD的权限
+const isCreate = usePermissions(`${prop.contentConfig.pageName}:create`)
+const isDelete = usePermissions(`${prop.contentConfig.pageName}:delete`)
+const isUpdate = usePermissions(`${prop.contentConfig.pageName}:update`)
 const systemInfo = systemStore()
 const searchObj = reactive({
   offset: 1,

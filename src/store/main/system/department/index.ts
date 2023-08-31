@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia'
-import { getRoleInfoList } from '@/service/main/system/role'
-import type { getRoleListTypes, roleStoreTypes } from '@/types/role'
+import { getDepartmentList } from '@/service/main/system/department'
+import type { getDepartmentListTypes, departmentStoreTypes } from '@/types/department'
 import { messageTip } from '@/utils/format'
-const roleStore = defineStore('role', {
-  state: (): roleStoreTypes => ({
-    roleList: []
+const departmentStore = defineStore('department', {
+  state: (): departmentStoreTypes => ({
+    departmentList: []
   }),
   actions: {
-    async getRoleList(data: getRoleListTypes = {}) {
+    async getDepartmentList(data: getDepartmentListTypes = {}) {
       try {
-        const res = await getRoleInfoList(data)
+        const res = await getDepartmentList(data)
         if (!res.data) {
           messageTip('服务器错误', 'error')
         } else {
@@ -17,7 +17,7 @@ const roleStore = defineStore('role', {
             messageTip('暂无数据', 'warning')
           } else {
             messageTip('获取角色列表成功', 'success')
-            this.roleList = res.data.list
+            this.departmentList = res.data.list
           }
         }
       } catch (error) {
@@ -26,4 +26,4 @@ const roleStore = defineStore('role', {
     }
   }
 })
-export default roleStore
+export default departmentStore

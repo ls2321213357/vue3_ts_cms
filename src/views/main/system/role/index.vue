@@ -76,6 +76,7 @@ useSystem.getEntireMenusList()
 const { menuList } = storeToRefs(useSystem)
 //其他的多出来的配置项
 const otherInfo = ref({})
+//点击el-tree收集的数据
 const checkNodeHandler = (data1: any, data2: any) => {
   const menuList = [...data2.checkedKeys, ...data2.halfCheckedKeys]
   otherInfo.value = { menuList }

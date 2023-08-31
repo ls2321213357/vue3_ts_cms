@@ -1,4 +1,5 @@
 export default {
+  pageName: 'department',
   formItems: [
     {
       type: 'input',

@@ -1,6 +1,6 @@
 export interface getDepartmentListTypes {
-  offset: number
-  size: number
+  offset?: number
+  size?: number
   searchQuery?: searchDepartmentTypes
 }
 export interface searchDepartmentTypes {
@@ -10,7 +10,6 @@ export interface searchDepartmentTypes {
 }
 export interface departmentStoreTypes {
   departmentList: any[]
-  departmentSum: number
 }
 
 export interface editDepartmentTypes {
@@ -24,5 +23,3 @@ export interface createDepartmentTypes {
   parentId: number
   leader: string
 }
-
-

@@ -1,7 +1,7 @@
 export default {
-  title: '部门列表',
-  btnTitle: '新建部门',
-  pageName: 'department',
+  title: '用户列表',
+  btnTitle: '新建用户',
+  pageName: 'users',
   dataList: [
     {
       type: 'selection',
@@ -15,19 +15,25 @@ export default {
     },
     {
       type: 'normal',
-      label: '部门名称',
+      label: '用户名称',
       prop: 'name'
     },
     {
       type: 'normal',
-      label: '部门领导',
-      prop: 'leader'
+      label: '真实姓名',
+      prop: 'realname'
     },
     {
       type: 'normal',
-      label: '上级部门',
-      prop: 'parentId',
+      label: '手机号码',
+      prop: 'cellphone',
       width: '150'
+    },
+    {
+      type: 'status',
+      label: '状态',
+      prop: 'enable',
+      slotName: 'status'
     },
     {
       type: 'timer',
@@ -42,19 +48,6 @@ export default {
     {
       type: 'handler',
       label: '操作'
-    },
-    //需要定制开发时就使用作用域插槽
-    {
-      type: 'custom',
-      label: '部门领导',
-      prop: 'leader',
-      slotName: 'leader'
-    },
-    {
-      type: 'custom',
-      label: '部门名称',
-      prop: 'name',
-      slotName: 'name'
     }
   ]
 }

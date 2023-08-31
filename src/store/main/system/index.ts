@@ -37,8 +37,6 @@ const systemStore = defineStore('system', {
       if (!res.data) {
         messageTip('创建失败', 'error')
         return Promise.reject(new Error('系统出错'))
-      } else {
-        messageTip(res.data, 'success')
       }
     },
     //删除

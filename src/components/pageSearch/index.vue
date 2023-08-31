@@ -1,5 +1,5 @@
 <template>
-  <div class="user-search">
+  <div class="user-search" v-if="isQuery">
     <el-form
       label-position="right"
       label-width="80px"
@@ -57,14 +57,17 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import type { ElForm } from 'element-plus'
+import { usePermissions } from '@/hooks/usePermissions'
 interface Iprops {
   searchConfig: {
     formItems: any[]
+    pageName: string
   }
 }
 const formLine = ref<InstanceType<typeof ElForm>>()
 const emit = defineEmits(['searchHandler', 'resetHandler'])
 const prop = defineProps<Iprops>()
+const isQuery = usePermissions(`${prop.searchConfig.pageName}:search`)
 //对传进来的prop进行遍历,进行对象属性的赋值
 const initialForm: any = {}
 for (const initial of prop.searchConfig.formItems) {
