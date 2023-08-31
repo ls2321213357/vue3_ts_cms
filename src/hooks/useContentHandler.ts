@@ -1,8 +1,8 @@
 import { ref } from 'vue'
 import type pageContent from '@/views/main/system/department/components/pageContent.vue'
 import type pageDialog from '@/views/main/system/department/components/pageDialog.vue'
-type editFnType = (data: any) => void
-export function useContentHandler(editCallBack?: editFnType) {
+type callBackType = (data?: any) => void
+export function useContentHandler(newCallBack?: callBackType, editCallBack?: callBackType) {
   const pageCtx = ref<InstanceType<typeof pageContent>>()
   const pageDig = ref<InstanceType<typeof pageDialog>>()
   //查询操作
@@ -25,6 +25,7 @@ export function useContentHandler(editCallBack?: editFnType) {
   //新建操作
   const createClickHandler = () => {
     pageDig.value?.createUserItem()
+    if (newCallBack) newCallBack()
   }
   //新建成功的回调
   const createSuccessHandler = () => {

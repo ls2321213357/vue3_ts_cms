@@ -11,7 +11,7 @@
           <template v-for="item in dialogConfig.formList" :key="item.label">
             <template v-if="item.type === 'input'">
               <el-form-item :label="item.label" :prop="item.prop">
-                <el-input v-model="dialogObj[item.prop]"></el-input>
+                <el-input type="" v-model="dialogObj[item.prop]"></el-input>
               </el-form-item>
             </template>
             <template v-if="item.type === 'select'">
@@ -84,6 +84,7 @@ const editItemHandler = (item: any) => {
 }
 //新建操作
 const createUserItem = () => {
+  dialogObj = {}
   prop.dialogConfig.isNewUser = true
   prop.dialogConfig.isShowDialog = true
 }

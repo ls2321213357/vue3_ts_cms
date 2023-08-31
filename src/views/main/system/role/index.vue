@@ -57,6 +57,11 @@ const editCallBack = (itemData: any) => {
     treeRef.value?.setCheckedKeys(getMenuListToIDArray(itemData.menuList))
   })
 }
+const newCallBack = () => {
+  nextTick(() => {
+    treeRef.value?.setCheckedKeys(getMenuListToIDArray([]))
+  })
+}
 //引入hooks
 const {
   pageCtx,
@@ -67,7 +72,7 @@ const {
   editSuccessHandler,
   createClickHandler,
   createSuccessHandler
-} = useContentHandler(editCallBack)
+} = useContentHandler(newCallBack, editCallBack)
 const defaultProps = reactive({
   children: 'children',
   label: 'name'

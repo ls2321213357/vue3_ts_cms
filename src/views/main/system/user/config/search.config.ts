@@ -22,7 +22,17 @@ export default {
     {
       type: 'select',
       label: '状态',
-      prop: 'enable'
+      prop: 'enable',
+      options: [
+        {
+          value: 1,
+          label: '启用'
+        },
+        {
+          value: 0,
+          label: '禁用'
+        }
+      ]
     },
     {
       type: 'date-picker',

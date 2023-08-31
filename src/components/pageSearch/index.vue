@@ -17,7 +17,7 @@
                   :placeholder="item.placeholder"
                 ></el-input>
               </template>
-              <template v-if="item.type === 'search'">
+              <template v-if="item.type === 'select'">
                 <el-select v-model="searchForm[item.prop]" placeholder="请选择" style="width: 100%">
                   <template v-for="option in item.options" :key="option.value">
                     <el-option :label="option.label" :value="option.value" />
@@ -67,7 +67,7 @@ interface Iprops {
 const formLine = ref<InstanceType<typeof ElForm>>()
 const emit = defineEmits(['searchHandler', 'resetHandler'])
 const prop = defineProps<Iprops>()
-const isQuery = usePermissions(`${prop.searchConfig.pageName}:search`)
+const isQuery = usePermissions(`${prop.searchConfig.pageName}:query`)
 //对传进来的prop进行遍历,进行对象属性的赋值
 const initialForm: any = {}
 for (const initial of prop.searchConfig.formItems) {

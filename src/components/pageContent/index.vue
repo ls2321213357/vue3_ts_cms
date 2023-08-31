@@ -117,10 +117,8 @@ const searchObj = reactive({
   size: 10
 })
 const fetchSearchHandler = (searchQueryObj = {}) => {
-  //获取部门列表
   systemInfo.getInfoList(prop.contentConfig.pageName, { ...searchObj, ...searchQueryObj })
 }
-//获取部门列表
 fetchSearchHandler()
 const { dataList, dataSum } = storeToRefs(systemInfo)
 //更改一页展示几条数据
@@ -163,6 +161,7 @@ watch(
   }
   .ctx-table {
     height: calc(100vh - 410px);
+    overflow-y: auto;
     .btn {
       display: flex;
       justify-content: space-between;
