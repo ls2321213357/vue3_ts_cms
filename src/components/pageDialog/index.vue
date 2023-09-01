@@ -84,7 +84,7 @@ const editItemHandler = (item: any) => {
 }
 //新建操作
 const createUserItem = () => {
-  dialogObj = {}
+  dialogObj = reactive({})
   prop.dialogConfig.isNewUser = true
   prop.dialogConfig.isShowDialog = true
 }
