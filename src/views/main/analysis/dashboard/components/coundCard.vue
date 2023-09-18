@@ -6,24 +6,38 @@
         <el-icon><InfoFilled /></el-icon>
       </el-tooltip>
     </div>
-    <div class="main">{{ item.number1 }}</div>
+    <div class="main" ref="main">{{ item.number1 }}</div>
     <div class="footer">
       <span>{{ item.subtitle }}:</span>
-      <span>{{ item.number2 }}</span>
+      <span ref="number2">{{ item.number2 }}</span>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { CountUp } from 'countup.js'
 type Iprops = {
   item: {
-    title?: string
-    tips?: string
-    number1?: number
-    number2?: number
+    amount: string
+    title: string
+    tips: string
+    number1: number
+    number2: number
     subtitle?: string
   }
 }
-defineProps<Iprops>()
+const props = defineProps<Iprops>()
+const main = ref<HTMLElement>()
+const number2 = ref<HTMLElement>()
+const option = {
+  prefix: props.item.amount === 'saleroom' ? '💴' : ''
+}
+onMounted(() => {
+  const countup1 = new CountUp(main.value!, props.item.number1, option)
+  const countup2 = new CountUp(number2.value!, props.item.number2, option)
+  countup1.start()
+  countup2.start()
+})
 </script>
 <style scoped lang="less">
 .container {

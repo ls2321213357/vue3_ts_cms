@@ -9,12 +9,14 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BarCharts: typeof import('./src/components/pageEcharts/components/bar-charts.vue')['default']
     BaseCharts: typeof import('./src/components/pageEcharts/components/base-charts.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCard: typeof import('element-plus/es')['ElCard']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElContainer: typeof import('element-plus/es')['ElContainer']
@@ -49,12 +51,16 @@ declare module '@vue/runtime-core' {
     ElUpload: typeof import('element-plus/es')['ElUpload']
     HeaderCrumb: typeof import('./src/components/MainHeader/components/HeaderCrumb.vue')['default']
     HeaderInfo: typeof import('./src/components/MainHeader/components/HeaderInfo.vue')['default']
+    LineCharts: typeof import('./src/components/pageEcharts/components/line-charts.vue')['default']
     MainHeader: typeof import('./src/components/MainHeader/index.vue')['default']
     MainMenu: typeof import('./src/components/MainMenu/index.vue')['default']
+    MapEchart: typeof import('./src/components/pageEcharts/components/map-echart.vue')['default']
     PageContent: typeof import('./src/components/pageContent/index.vue')['default']
     PageContent1: typeof import('./src/components/pageContent/pageContent1.vue')['default']
     PageDialog: typeof import('./src/components/pageDialog/index.vue')['default']
     PageSearch: typeof import('./src/components/pageSearch/index.vue')['default']
+    PieCharts: typeof import('./src/components/pageEcharts/components/pie-charts.vue')['default']
+    RoleCharts: typeof import('./src/components/pageEcharts/components/role-charts.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
