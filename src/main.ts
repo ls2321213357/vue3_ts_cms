@@ -7,10 +7,32 @@ import './assets/css/index.css'
 //2.组件样式引入 import 'element-plus/theme-chalk/el-message.css'
 //3. 使用vite-plugin-style-import 自动引入 (记得也要安装consola包)
 import router from '@/router/index'
+
+
+
+
+
+
+
+
+
 import pinia from './store'
+
+
+
 import registerIcons from './assets/global/register-icons'
+
+
+
+
+
+
+
 import ElementPlus from 'element-plus'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+
+
+
 createApp(App)
   .use(router)
   .use(pinia)
